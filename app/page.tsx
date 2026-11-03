@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import type { FormEvent } from 'react'
 import {
   ArrowDownToLine,
   ArrowUpRight,
@@ -42,7 +43,31 @@ export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [resumeOpen, setResumeOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('top')
+  const [showBackToTop, setShowBackToTop] = useState(false)
+  const [formStatus, setFormStatus] = useState<'idle' | 'sent'>('idle')
   const navItems = ['About', 'Services', 'Experience', 'Skills', 'Contact']
+
+  useEffect(() => {
+    const sections = ['top', ...navItems.map((item) => item.toLowerCase())]
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+      if (visible) setActiveSection(visible.target.id)
+    }, { rootMargin: '-25% 0px -60% 0px', threshold: [0, .25, .5, 1] })
+    sections.forEach((id) => document.getElementById(id) && observer.observe(document.getElementById(id)!))
+    const handleScroll = () => setShowBackToTop(window.scrollY > 600)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => { observer.disconnect(); window.removeEventListener('scroll', handleScroll) }
+  }, [])
+
+  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setFormStatus('sent')
+    const form = new FormData(event.currentTarget)
+    const subject = encodeURIComponent(`Portfolio inquiry from ${form.get('name')}`)
+    const body = encodeURIComponent(`${form.get('message')}\\n\\nReply to: ${form.get('email')}`)
+    window.location.href = `mailto:rolandtrazona@gmail.com?subject=${subject}&body=${body}`
+  }
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -60,7 +85,7 @@ export default function Page() {
         <a className="wordmark" href="#top" onClick={() => setMenuOpen(false)}><span>RT</span> Roland Trazona</a>
         <button className="menu-button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X size={21} /> : <Menu size={21} />}</button>
         <div className={`nav-links ${menuOpen ? 'is-open' : ''}`}>
-          {navItems.map((item) => <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}>{item}</a>)}<button className="nav-resume" type="button" onClick={() => { setResumeOpen(true); setMenuOpen(false) }}>Resume</button>
+          {navItems.map((item) => <a className={activeSection === item.toLowerCase() ? 'active' : ''} key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}>{item}</a>)}<button className="nav-resume" type="button" onClick={() => { setResumeOpen(true); setMenuOpen(false) }}>Resume</button>
           <a className="nav-cta" href="#contact" onClick={() => setMenuOpen(false)}>Let&apos;s talk <ArrowUpRight size={15} /></a>
         </div>
       </nav>
@@ -97,13 +122,13 @@ export default function Page() {
 
       {resumeOpen && <div className="resume-modal" role="presentation" aria-label="Resume viewer" onMouseDown={(event) => { if (event.target === event.currentTarget) setResumeOpen(false) }}><div className="resume-dialog" role="dialog" aria-modal="true" aria-labelledby="resume-title"><div className="resume-dialog-header"><div><span className="card-kicker">View only</span><h2 id="resume-title">Roland Trazona — Resume</h2></div><button className="modal-close" type="button" onClick={() => setResumeOpen(false)} aria-label="Close resume viewer"><X size={20} /></button></div><div className="resume-viewer"><iframe src={resumeViewerUrl} title="Roland Trazona resume" /></div></div></div>}
 
-\n\n      <section className="section-pad resume-prompt"><div className="resume-prompt-card"><div><span className="card-kicker">07 / Resume</span><h2>Want the full picture?</h2><p>Open my professional resume in a focused, view-only window.</p></div><button className="button button-primary" type="button" onClick={() => setResumeOpen(true)}>Open resume <ArrowUpRight size={17} /></button></div></section>
+      <section className="section-pad resume-prompt"><div className="resume-prompt-card"><div><span className="card-kicker">07 / Resume</span><h2>Want the full picture?</h2><p>Open my professional resume in a focused, view-only window.</p></div><button className="button button-primary" type="button" onClick={() => setResumeOpen(true)}>Open resume <ArrowUpRight size={17} /></button></div></section>
 
-      <section className="section-pad contact-section" id="contact"><div className="contact-card"><div className="contact-main"><div className="eyebrow"><span className="status-dot" /> Open to new opportunities</div><h2>Let&apos;s make<br /><span>work work better.</span></h2><p>Have a workforce challenge, an operational bottleneck, or a process that needs structure? I&apos;d like to hear about it.</p><a className="button button-primary" href="mailto:rolandtrazona@gmail.com">Start a conversation <ArrowUpRight size={17} /></a></div><div className="contact-details"><a href="mailto:rolandtrazona@gmail.com"><Mail size={18} /><span>rolandtrazona@gmail.com</span></a><a href="https://wa.me/639760059887" target="_blank" rel="noreferrer"><MessageCircle className="whatsapp-icon" size={18} /><span>WhatsApp: +63 976 005 9887</span><ArrowUpRight size={15} /></a><a href="https://www.linkedin.com/in/roland-trazona-99a875111" target="_blank" rel="noreferrer"><Globe2 size={18} /><span>Connect on LinkedIn</span><ArrowUpRight size={15} /></a></div></div></section>
+      <section className="section-pad contact-section" id="contact"><div className="contact-card"><div className="contact-main"><div className="eyebrow"><span className="status-dot" /> Open to new opportunities</div><h2>Let&apos;s make<br /><span>work work better.</span></h2><p>Have a workforce challenge, an operational bottleneck, or a process that needs structure? I&apos;d like to hear about it.</p><a className="button button-primary" href="mailto:rolandtrazona@gmail.com">Start a conversation <ArrowUpRight size={17} /></a></div><form className="contact-form" onSubmit={handleContactSubmit}><label>Name<input name="name" type="text" placeholder="Your name" required minLength={2} /></label><label>Email<input name="email" type="email" placeholder="you@example.com" required /></label><label>Message<textarea name="message" placeholder="How can I help?" required minLength={10} rows={4} /></label><button className="button button-primary" type="submit">{formStatus === 'sent' ? 'Opening email…' : 'Send message'} <ArrowUpRight size={17} /></button></form><div className="contact-details"><a href="mailto:rolandtrazona@gmail.com"><Mail size={18} /><span>rolandtrazona@gmail.com</span></a><a href="https://wa.me/639760059887" target="_blank" rel="noreferrer"><MessageCircle className="whatsapp-icon" size={18} /><span>WhatsApp: +63 976 005 9887</span><ArrowUpRight size={15} /></a><a href="https://www.linkedin.com/in/roland-trazona-99a875111" target="_blank" rel="noreferrer"><Globe2 size={18} /><span>Connect on LinkedIn</span><ArrowUpRight size={15} /></a></div></div></section>
 
       <section className="section-pad faq-section"><div className="section-label"><span>08</span><span className="line" /><span>Good to know</span></div><div className="faq-list">{['What kinds of roles am I looking for?', 'How can I help your team?', 'What makes my approach different?'].map((question, i) => <div className="faq-item" key={question}><button onClick={() => setOpenFaq(openFaq === i ? null : i)} aria-expanded={openFaq === i}><span>0{i + 1}</span>{question}<ChevronDown className={openFaq === i ? 'rotate' : ''} size={19} /></button>{openFaq === i && <p>{i === 0 ? 'I am open to Operations Associate, Workforce Manager, Customer Support Manager, Business Virtual Assistant, and Operations Coordinator opportunities.' : i === 1 ? 'I bring hands-on experience building schedules, reporting systems, SOPs, training programs, and operational routines that help teams scale.' : 'I combine people-first operations experience with structured analysis and practical AI workflows — always focused on making work clearer and more effective.'}</p>}</div>)}</div></section>
 
-      <footer><a className="wordmark" href="#top"><span>RT</span> Roland Trazona</a><p>Operations & Workforce Management Professional</p><span>© 2026 Roland Trazona</span></footer>
+      <button className={`back-to-top ${showBackToTop ? 'is-visible' : ''}`} type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top"><ArrowUpRight size={18} /></button><footer><a className="wordmark" href="#top"><span>RT</span> Roland Trazona</a><p>Operations & Workforce Management Professional</p><span>© 2026 Roland Trazona</span></footer>
     </main>
   )
 }
