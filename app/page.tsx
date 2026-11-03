@@ -5,25 +5,17 @@ import {
   ArrowDownToLine,
   ArrowUpRight,
   BarChart3,
-  BriefcaseBusiness,
   Check,
   ChevronDown,
-  ClipboardCheck,
-  Clock3,
-  Code2,
   FileSpreadsheet,
   Globe2,
   GraduationCap,
-  Linkedin,
   Mail,
   Menu,
-  MessageCircle,
   Network,
   Phone,
   Settings2,
   Sparkles,
-  Target,
-  TrendingUp,
   UsersRound,
   X,
 } from 'lucide-react'
@@ -93,7 +85,7 @@ export default function Page() {
 
       <section className="section-pad education-section"><div className="education-card"><div className="icon-box"><GraduationCap size={22} /></div><div><span className="card-kicker">Education & certifications</span><h3>Bachelor of Secondary Education, Major in English</h3><p>Tañon College · San Carlos City, Negros Occidental · 2012–2016</p><div className="cert-list"><span>NTDC Certified</span><span>Airborne Trainer</span><span>Lean Six Sigma White Belt</span></div></div></div></section>
 
-      <section className="section-pad contact-section" id="contact"><div className="contact-card"><div className="contact-main"><div className="eyebrow"><span className="status-dot" /> Open to new opportunities</div><h2>Let&apos;s make<br /><span>work work better.</span></h2><p>Have a workforce challenge, an operational bottleneck, or a process that needs structure? I&apos;d like to hear about it.</p><a className="button button-primary" href="mailto:rolandtrazona@gmail.com">Start a conversation <ArrowUpRight size={17} /></a></div><div className="contact-details"><a href="mailto:rolandtrazona@gmail.com"><Mail size={18} /><span>rolandtrazona@gmail.com</span></a><a href="tel:+649760059887"><Phone size={18} /><span>+63 976 005 9887</span></a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><Linkedin size={18} /><span>Connect on LinkedIn</span><ArrowUpRight size={15} /></a></div></div></section>
+      <section className="section-pad contact-section" id="contact"><div className="contact-card"><div className="contact-main"><div className="eyebrow"><span className="status-dot" /> Open to new opportunities</div><h2>Let&apos;s make<br /><span>work work better.</span></h2><p>Have a workforce challenge, an operational bottleneck, or a process that needs structure? I&apos;d like to hear about it.</p><a className="button button-primary" href="mailto:rolandtrazona@gmail.com">Start a conversation <ArrowUpRight size={17} /></a></div><div className="contact-details"><a href="mailto:rolandtrazona@gmail.com"><Mail size={18} /><span>rolandtrazona@gmail.com</span></a><a href="tel:+649760059887"><Phone size={18} /><span>+63 976 005 9887</span></a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><Globe2 size={18} /><span>Connect on LinkedIn</span><ArrowUpRight size={15} /></a></div></div></section>
 
       <section className="section-pad faq-section"><div className="section-label"><span>07</span><span className="line" /><span>Good to know</span></div><div className="faq-list">{['What kinds of roles am I looking for?', 'How can I help your team?', 'What makes my approach different?'].map((question, i) => <div className="faq-item" key={question}><button onClick={() => setOpenFaq(openFaq === i ? null : i)} aria-expanded={openFaq === i}><span>0{i + 1}</span>{question}<ChevronDown className={openFaq === i ? 'rotate' : ''} size={19} /></button>{openFaq === i && <p>{i === 0 ? 'I am open to Operations Associate, Workforce Manager, Customer Support Manager, Business Virtual Assistant, and Operations Coordinator opportunities.' : i === 1 ? 'I bring hands-on experience building schedules, reporting systems, SOPs, training programs, and operational routines that help teams scale.' : 'I combine people-first operations experience with structured analysis and practical AI workflows — always focused on making work clearer and more effective.'}</p>}</div>)}</div></section>
 
