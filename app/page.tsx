@@ -12,8 +12,8 @@ import {
   GraduationCap,
   Mail,
   Menu,
+  MessageCircle,
   Network,
-  Phone,
   Settings2,
   Sparkles,
   UsersRound,
@@ -40,7 +40,7 @@ const experience = [
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const navItems = ['About', 'Services', 'Experience', 'Skills', 'Contact']
+  const navItems = ['About', 'Services', 'Experience', 'Skills', 'Resume', 'Contact']
 
   return (
     <main className="site-shell">
@@ -60,7 +60,7 @@ export default function Page() {
           <div className="eyebrow"><span className="status-dot" /> Available for opportunities</div>
           <h1>Operations that <em>scale.</em><br />Systems that <span>work.</span></h1>
           <p className="hero-lede">Helping businesses scale through operational excellence, workforce planning, process optimization, and AI-powered productivity.</p>
-          <div className="hero-actions"><a className="button button-primary" href="#contact">Let&apos;s work together <ArrowUpRight size={17} /></a><a className="button button-ghost" href={resumeUrl} target="_blank" rel="noreferrer"><ArrowDownToLine size={17} /> Download resume</a></div>
+          <div className="hero-actions"><a className="button button-primary" href="#contact">Let&apos;s work together <ArrowUpRight size={17} /></a><a className="button button-ghost" href="#resume"><ArrowDownToLine size={17} /> View resume</a></div>
           <div className="hero-proof"><div><strong>10+</strong><span>Years of experience</span></div><div><strong>15</strong><span>Person WFM team built</span></div><div><strong>03</strong><span>Countries supported</span></div></div>
         </div>
         <div className="hero-portrait reveal delay-one"><div className="portrait-ring" /><div className="portrait-card"><img src={profileImage} alt="Professional portrait of Roland Trazona" /><div className="portrait-caption"><span>Based in</span><strong>San Carlos City, PH</strong></div></div><div className="floating-card float-top"><BarChart3 size={17} /><span><b>15-person</b> function scaled</span></div><div className="floating-card float-bottom"><span className="mini-check"><Check size={12} /></span><span>Systems over guesswork</span></div></div>
@@ -85,9 +85,9 @@ export default function Page() {
 
       <section className="section-pad education-section"><div className="education-card"><div className="icon-box"><GraduationCap size={22} /></div><div><span className="card-kicker">Education & certifications</span><h3>Bachelor of Secondary Education, Major in English</h3><p>Tañon College · San Carlos City, Negros Occidental · 2012–2016</p><div className="cert-list"><span>NTDC Certified</span><span>Airborne Trainer</span><span>Lean Six Sigma White Belt</span></div></div></div></section>
 
-      <section className="section-pad contact-section" id="contact"><div className="contact-card"><div className="contact-main"><div className="eyebrow"><span className="status-dot" /> Open to new opportunities</div><h2>Let&apos;s make<br /><span>work work better.</span></h2><p>Have a workforce challenge, an operational bottleneck, or a process that needs structure? I&apos;d like to hear about it.</p><a className="button button-primary" href="mailto:rolandtrazona@gmail.com">Start a conversation <ArrowUpRight size={17} /></a></div><div className="contact-details"><a href="mailto:rolandtrazona@gmail.com"><Mail size={18} /><span>rolandtrazona@gmail.com</span></a><a href="tel:+649760059887"><Phone size={18} /><span>+63 976 005 9887</span></a><a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><Globe2 size={18} /><span>Connect on LinkedIn</span><ArrowUpRight size={15} /></a></div></div></section>
+      <section className="section-pad resume-section" id="resume"><div className="section-label"><span>06</span><span className="line" /><span>Resume</span></div><div className="resume-heading"><div><h2>View my <span>resume.</span></h2><p>A focused overview of my experience, capabilities, and professional background.</p></div><span className="view-only-badge">View only</span></div><div className="resume-viewer"><iframe src={`${resumeUrl}#toolbar=0&navpanes=0&scrollbar=1`} title="Roland Trazona resume" /></div></section>\n\n      <section className="section-pad contact-section" id="contact"><div className="contact-card"><div className="contact-main"><div className="eyebrow"><span className="status-dot" /> Open to new opportunities</div><h2>Let&apos;s make<br /><span>work work better.</span></h2><p>Have a workforce challenge, an operational bottleneck, or a process that needs structure? I&apos;d like to hear about it.</p><a className="button button-primary" href="mailto:rolandtrazona@gmail.com">Start a conversation <ArrowUpRight size={17} /></a></div><div className="contact-details"><a href="mailto:rolandtrazona@gmail.com"><Mail size={18} /><span>rolandtrazona@gmail.com</span></a><a href="https://wa.me/639760059887" target="_blank" rel="noreferrer"><MessageCircle className="whatsapp-icon" size={18} /><span>WhatsApp: +63 976 005 9887</span><ArrowUpRight size={15} /></a><a href="https://www.linkedin.com/in/roland-trazona-99a875111" target="_blank" rel="noreferrer"><Globe2 size={18} /><span>Connect on LinkedIn</span><ArrowUpRight size={15} /></a></div></div></section>
 
-      <section className="section-pad faq-section"><div className="section-label"><span>07</span><span className="line" /><span>Good to know</span></div><div className="faq-list">{['What kinds of roles am I looking for?', 'How can I help your team?', 'What makes my approach different?'].map((question, i) => <div className="faq-item" key={question}><button onClick={() => setOpenFaq(openFaq === i ? null : i)} aria-expanded={openFaq === i}><span>0{i + 1}</span>{question}<ChevronDown className={openFaq === i ? 'rotate' : ''} size={19} /></button>{openFaq === i && <p>{i === 0 ? 'I am open to Operations Associate, Workforce Manager, Customer Support Manager, Business Virtual Assistant, and Operations Coordinator opportunities.' : i === 1 ? 'I bring hands-on experience building schedules, reporting systems, SOPs, training programs, and operational routines that help teams scale.' : 'I combine people-first operations experience with structured analysis and practical AI workflows — always focused on making work clearer and more effective.'}</p>}</div>)}</div></section>
+      <section className="section-pad faq-section"><div className="section-label"><span>08</span><span className="line" /><span>Good to know</span></div><div className="faq-list">{['What kinds of roles am I looking for?', 'How can I help your team?', 'What makes my approach different?'].map((question, i) => <div className="faq-item" key={question}><button onClick={() => setOpenFaq(openFaq === i ? null : i)} aria-expanded={openFaq === i}><span>0{i + 1}</span>{question}<ChevronDown className={openFaq === i ? 'rotate' : ''} size={19} /></button>{openFaq === i && <p>{i === 0 ? 'I am open to Operations Associate, Workforce Manager, Customer Support Manager, Business Virtual Assistant, and Operations Coordinator opportunities.' : i === 1 ? 'I bring hands-on experience building schedules, reporting systems, SOPs, training programs, and operational routines that help teams scale.' : 'I combine people-first operations experience with structured analysis and practical AI workflows — always focused on making work clearer and more effective.'}</p>}</div>)}</div></section>
 
       <footer><a className="wordmark" href="#top"><span>RT</span> Roland Trazona</a><p>Operations & Workforce Management Professional</p><span>© 2026 Roland Trazona</span></footer>
     </main>
